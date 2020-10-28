@@ -1,0 +1,97 @@
+<html>
+
+<head>
+  <title>Post</title>
+  <link rel="stylesheet" href="dist/css/dropify.min.css">
+    <link rel="stylesheet" href="dist/css/dropify.css">
+
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body>
+<div class="navbar">
+  <a href="index1.html" >All posts</a>
+  <a href="post.html" class = "active">Publish</a>
+  <a href="yourpost.html">Your Posts</a>
+    <a href="image.html">Favourites</a>
+
+</div>
+<br> <br><br>
+  <form>
+    <input type="file" class="dropify" data-max-file-size="500K" />
+
+    <input type="submit" value="Post" class="post">
+  </form>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="dist/js/dropify.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-auth.js"></script>
+
+  <script>
+    
+
+
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBLzNuhhRZEe8b8sCtU14SUPBEYdrpm7Ac",
+    authDomain: "weblogin-99b57.firebaseapp.com",
+    databaseURL: "https://weblogin-99b57.firebaseio.com",
+    projectId: "weblogin-99b57",
+    storageBucket: "weblogin-99b57.appspot.com",
+    messagingSenderId: "951150663114",
+    appId: "1:951150663114:web:326948cc91c9f131a02b33"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+    var db = firebase.firestore();
+
+    $('.dropify').dropify();
+    
+
+
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+        console.log("current user",user.uid);
+        var user = firebase.auth().currentUser.uid; 
+localStorage.setItem("userid", user);
+
+    // User is signed in.
+  } else {
+    alert("no sign in")
+    // No user is signed in.
+  }
+});
+    $("form").submit(function(event) {
+      event.preventDefault();
+var userid=localStorage.getItem("Userid");
+      var reader = new FileReader();
+      reader.readAsDataURL($(".dropify").prop('files')[0]);
+        const userAuth = firebase.auth();
+
+      reader.onloadend = function() {
+        db.collection("Images").add({
+          banner: reader.result
+       
+
+        });
+        db.collection(userid).add({
+          banner: reader.result
+       
+
+        });
+        
+         
+      }
+    });
+  </script>
+
+</body>
+
+</html>

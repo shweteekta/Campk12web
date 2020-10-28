@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+</style>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>Responsive Image Grid</h1>
+  <p>Resize the browser window to see the responsive effect.</p>
+</div>
+
+<!-- Photo Grid -->
+<div class="row"> 
+  
+  <div class="column">
+    <img src="photo-1500462918059-b1a0cb512f1d.jpeg" style="width:100%; height:50%">
+    
+  </div>  
+ 
+
+</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-firestore.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCZSc1hA8bLIl3I9S6oS2p7H-Z-d040b9w",
+      authDomain: "makers-asylum-lms.firebaseapp.com",
+      databaseURL: "https://makers-asylum-lms.firebaseio.com",
+      projectId: "makers-asylum-lms",
+      storageBucket: "makers-asylum-lms.appspot.com",
+      messagingSenderId: "224811258650",
+      appId: "1:224811258650:web:4a598196f0dcbf83e9d2a3",
+      measurementId: "G-G8ZZ002KCR"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    var db = firebase.firestore();
+
+    db.collection('Images').get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        $(".row").append(`<div class="column"><img src="${doc.data()["banner"]}"style="width:100%;">
+   
+          
+            
+        </div> `);
+      });
+    });
+  </script>
+</body>
+</html>
